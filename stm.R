@@ -1,5 +1,5 @@
 # install/load libraries
-pacman::p_load(here, readr, stringr, tibble, ggplot2, stm, dplyr, tidytext, grid, gridExtra, tidystm, gg.gap, ggraph, igrpah, visNetwork)
+pacman::p_load(here, readr, stringr, tibble, ggplot2, stm, dplyr, tidytext, grid, gridExtra, tidystm, gg.gap, ggraph, igrpah, visNetwork, stminsights)
 
 # load data
 oped_corp <- read_csv("op_eds_1999_2019.csv")
@@ -496,7 +496,3 @@ tidyprep2 %>%
   theme(plot.title = element_text(size = 15, face = "bold"))
 
 ggsave(here::here("figures", "jurisdiction_coefficients.pdf"), width =12, height = 15)
-
-
-
-
