@@ -11,29 +11,6 @@ oped_corp_subset <- oped_corp %>%
          Province != "n.s",
          Province != "n.b")
 
-total_words_id <- oped_corp_subset %>%
-  unnest_tokens(word, Full_Text, to_lower = TRUE) %>%
-  filter(!str_detect(word, "^[0-9]+")) %>%
-  anti_join(stop_words) %>%
-  anti_join(custom_stop_words, by = "word") %>%
-  group_by(ID) %>%
-  summarize(total= n()) %>%
-  ungroup()
-
-total_emotion_words_id <- oped_corp_subset %>% 
-  unnest_tokens(word, Full_Text, to_lower = TRUE) %>%
-  filter(!str_detect(word, "^[0-9]+")) %>%
-  anti_join(stop_words) %>%
-  anti_join(custom_stop_words, by = "word") %>%
-  inner_join(get_sentiments("nrc"))  %>%
-  group_by(ID) %>%
-  summarize(emotions= n()) %>%
-  ungroup()
-
-emotions_to_total_words_id <- total_words_id %>%
-  left_join(total_emotion_words_id, by="ID") %>%
-  mutate(percent_emotions=round((emotions/total)*100, 1))
-
 oped_corp_subset <- left_join(oped_corp_subset, emotions_to_total_words_id, by = "ID")
 
 processed <- textProcessor(oped_corp_subset$Full_Text, metadata = oped_corp_subset, customstopwords = 
